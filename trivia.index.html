@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="trivia.styles.css" rel="stylesheet">
+    <title>Trivia!</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Trivia!</h1>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Part 1: Multiple Choice </h2>
+            <hr>
+            <h3>What is the largest desert in the world?</h3>
+            <p id="result"></p>
+            <button id="sahara">Sahara</button>
+            <button id="antarctic">Antarctic</button>
+            <button id="arabian">Arabian</button>
+        </div>
+
+        <div class="section">
+            <h2>Part 2: Free Response</h2>
+            <hr>
+            <h3>The unicorn is the national animal of which country?</h3>
+            <p id='result2'></p>
+            <form>
+                <input type="text" id="answer">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const saharaButton = document.getElementById('sahara');
+            const antarcticButton = document.getElementById('antarctic');
+            const arabianButton = document.getElementById('arabian');
+
+            saharaButton.addEventListener('click', () => {
+                saharaButton.classList.add('wrong');
+                document.querySelector('#result').innerHTML = 'Incorrect';
+            });
+
+            antarcticButton.addEventListener('click', () => {
+                antarcticButton.classList.add('correct');
+                document.querySelector('#result').innerHTML = 'Correct!';
+            });
+
+            arabianButton.addEventListener('click', () => {
+                arabianButton.classList.add('wrong');
+                document.querySelector('#result').innerHTML = 'Incorrect';
+            });
+            var answerInput = document.getElementById('answer');
+            var answerForm = document.querySelector('form');
+
+            answerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            var answerValue = answerInput.value.trim().toLowerCase(); // Get answer value
+
+            if (answerValue === 'scotland') {
+                answerInput.classList.add('correct');
+                document.querySelector('#result2').innerHTML = 'Correct!';
+            } else {
+                answerInput.classList.add('wrong');
+                document.querySelector('#result2').innerHTML = 'Incorrect';
+            }
+            });
+        });
+    </script>
+</body>
+</html>

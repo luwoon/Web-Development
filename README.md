@@ -1,3 +1,3 @@
-# HTML-CSS-JS-Portfolio
+# Web Development Portfolio
 
 From Harvard University's CS50W course 'Web Programming with Python and JavaScript'

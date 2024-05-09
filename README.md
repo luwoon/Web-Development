@@ -6,4 +6,4 @@ Birthdays webpage:
 ![Birthdays webpage](Birthdays.png)
 
 Trivia webpage:
-![Trivia webpage](Trivia Webpage.png)
+![Trivia webpage](Trivia.png)

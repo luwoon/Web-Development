@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                function resetButtonColors() {
+                    document.querySelectorAll('.wrong, .correct').forEach(function(button) {
+                        button.style.backgroundColor = '';
+                    });
+                }
+
+                document.querySelectorAll('.wrong').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        resetButtonColors();
+                        button.style.backgroundColor = 'red';
+                        document.querySelector('#result').innerHTML = "Incorrect";
+                    });
+                });
+
+                document.querySelectorAll('.correct').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        resetButtonColors();
+                        button.style.backgroundColor = 'green';
+                        document.querySelector('#result').innerHTML = "Correct!";
+                    });
+                });
+
+                document.querySelector('#submit').addEventListener('click', function() {
+                    let input = document.querySelector('input[name="answer"]');
+                    let answer = input.value.trim().toLowerCase();
+
+                    if (answer === 'nocturne') {
+                        document.querySelector('#result1').innerHTML = "Correct!";
+                        input.style.backgroundColor = 'green';
+                    } else {
+                        document.querySelector('#result1').innerHTML = "Incorrect"
+                        input.style.backgroundColor = 'red';
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <h3>From the ballet of the same name, the music of Pyotr Ilyich Tchaikovsky was adapted into 
+                    songs including "Once Upon a Dream" for what classic 1959 Disney film?</h3>
+                <p id="result"></p>
+                    <form>
+                    <button type="button" class="wrong">Rapunzel</button>
+                    <button type="button" class="correct">Sleeping Beauty</button>
+                    <button type="button" class="wrong">Cinderella</button>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <h3>What single word is used for a musical composition that is inspired by, or evocative of, the night?</h3>
+                <p id="result1"></p>
+                <form>
+                    <input name="answer" type="text">
+                    <button type="button" id="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

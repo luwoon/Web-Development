@@ -1,0 +1,100 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>{{ listing.title }}</h2>
+
+    {% if user.is_authenticated and listing.posted_by == user and not listing.closed %}
+      <div>
+        <form action="{% url 'close_listing' listing.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Close Auction"/>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      {% if listing.closed %}
+        {% if listing.winning_user == user %}
+          <p>Congratulations! You have won this auction with a bid of ${{ listing.winning_bid }}.</p>
+        {% endif %}
+      {% else %}
+        <div>
+          <form action="{% url 'watchlist' listing.id %}" method="post">
+            {% csrf_token %}
+            {% if is_in_watchlist %}
+              <input type="submit" value="Remove from Watchlist" />
+            {% else %}
+              <input type="submit" value="Add to Watchlist" />
+            {% endif %}
+          </form>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if listing.image_url %}
+    <div>
+      <img src="{{ listing.image_url }}" width="500" height="500">
+    </div>
+    {% endif %}
+
+    <p><strong>Starting bid:</strong> ${{ listing.starting_bid }}</p>
+    <p><strong>Current highest bid:</strong> ${{ highest_bid|floatformat:2 }}</p>
+    
+    {% if user.is_authenticated %}
+      {% if listing.closed == False %}
+        <div>
+          <form action="{% url 'bid' listing.id %}" method="post">
+            {% csrf_token %}
+            <input type="number" step="0.01" name="amt" min="{{ listing.starting_bid }}" required/>
+            <input type="submit" value="Place bid"/>
+          </form>
+        </div>
+      {% else %}  
+        <div>
+          The listing is no longer active.
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h4>Details</h4>
+    <ul>
+      <li>{{ listing.details }}</li>
+      <li>Listed by {{ listing.posted_by }}</li>
+      <li>Category: {{ listing.category }}</li>
+      <li>Created {{ listing.created_time }}</li>
+    </ul>
+
+    <p>Category: {{ listing.category }}</p>
+    <p><a href="{% url 'category_listings' category_name=listing.category %}">View all listings in {{ listing.category }}</a></p>
+    
+    <h4>Comments</h4>
+    <div>
+      {% for comment in comments %}
+        <p><strong>{{ comment.user.username }}</strong>: {{ comment.content }}</p>
+        <p><small>{{ comment.time }}</small></p>
+      {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+      <h5>Add a comment</h5>
+      <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <p>{{ comment_form.content }} </p>
+        <button type="submit">Post comment</button>
+      </form>
+    {% else %}
+      <p>You must be logged in to post comments.</p>
+    {% endif %}
+    
+{% endblock %}

@@ -6,7 +6,7 @@ from .models import *
 
 User = get_user_model()
 
-# Register your models here.
+# Register your models here
 
 class UserAdmin(BaseUserAdmin):
     list_display = [field.name for field in User._meta.fields]
